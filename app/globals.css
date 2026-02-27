@@ -1,0 +1,320 @@
+@import "tailwindcss";
+
+/* ── Neumorphic Design Tokens ─────────────────────────────────────────── */
+:root {
+  /* Surface */
+  --nm-bg: #e4ebe4;
+  --nm-shadow-light: #ffffff;
+  --nm-shadow-dark: #bfc8bf;
+
+  /* Brand */
+  --nm-primary: #2a7a50;
+  --nm-primary-hover: #22633f;
+  --nm-primary-glow: rgba(42, 122, 80, 0.25);
+  --nm-accent: #c9920d;
+  --nm-accent-light: #f0b429;
+
+  /* Typography */
+  --nm-text: #1e3329;
+  --nm-text-secondary: #537060;
+  --nm-text-muted: #8aaa96;
+
+  /* Radius */
+  --nm-radius-lg: 1.75rem;
+  --nm-radius-md: 1.25rem;
+  --nm-radius-sm: 0.75rem;
+
+  /* Shadows */
+  --nm-shadow-flat: 6px 6px 14px var(--nm-shadow-dark),
+    -6px -6px 14px var(--nm-shadow-light);
+  --nm-shadow-raised: 10px 10px 22px var(--nm-shadow-dark),
+    -10px -10px 22px var(--nm-shadow-light);
+  --nm-shadow-pressed: inset 5px 5px 12px var(--nm-shadow-dark),
+    inset -5px -5px 12px var(--nm-shadow-light);
+  --nm-shadow-sm: 3px 3px 8px var(--nm-shadow-dark),
+    -3px -3px 8px var(--nm-shadow-light);
+}
+
+@theme inline {
+  --color-background: var(--nm-bg);
+  --color-foreground: var(--nm-text);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--nm-bg);
+  color: var(--nm-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Neumorphic Surface Classes ───────────────────────────────────────── */
+.nm-flat {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-flat);
+  border-radius: var(--nm-radius-lg);
+}
+
+.nm-flat-sm {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-sm);
+  border-radius: var(--nm-radius-sm);
+}
+
+.nm-raised {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-raised);
+  border-radius: var(--nm-radius-lg);
+}
+
+.nm-pressed {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-pressed);
+  border-radius: var(--nm-radius-md);
+}
+
+/* ── Neumorphic Buttons ───────────────────────────────────────────────── */
+.nm-btn-primary {
+  background: linear-gradient(145deg, #2d8556, #226543);
+  box-shadow: 4px 4px 10px var(--nm-shadow-dark),
+    -2px -2px 6px rgba(255, 255, 255, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  border-radius: var(--nm-radius-sm);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: box-shadow 0.18s ease, transform 0.12s ease, filter 0.18s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.nm-btn-primary:hover:not(:disabled) {
+  box-shadow: 6px 6px 14px var(--nm-shadow-dark),
+    -3px -3px 8px rgba(255, 255, 255, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.nm-btn-primary:active:not(:disabled) {
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.25),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+  transform: translateY(1px);
+  filter: brightness(0.95);
+}
+
+.nm-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.nm-btn-primary:focus-visible {
+  outline: 2px solid var(--nm-accent-light);
+  outline-offset: 3px;
+}
+
+.nm-btn-ghost {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-sm);
+  border-radius: var(--nm-radius-sm);
+  color: var(--nm-text-secondary);
+  font-weight: 500;
+  transition: box-shadow 0.18s ease, color 0.15s ease, transform 0.12s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.nm-btn-ghost:hover {
+  box-shadow: var(--nm-shadow-flat);
+  color: var(--nm-primary);
+  transform: translateY(-1px);
+}
+
+.nm-btn-ghost:active {
+  box-shadow: var(--nm-shadow-pressed);
+  transform: translateY(0);
+}
+
+.nm-btn-ghost:focus-visible {
+  outline: 2px solid var(--nm-primary);
+  outline-offset: 3px;
+}
+
+.nm-btn-ghost.active {
+  box-shadow: var(--nm-shadow-pressed);
+  color: var(--nm-primary);
+}
+
+/* ── Drop Zone ────────────────────────────────────────────────────────── */
+.nm-dropzone {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-pressed);
+  border-radius: var(--nm-radius-md);
+  border: 2px dashed rgba(42, 122, 80, 0.25);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nm-dropzone.drag-over {
+  border-color: var(--nm-primary);
+  box-shadow: inset 4px 4px 10px var(--nm-shadow-dark),
+    inset -4px -4px 10px var(--nm-shadow-light),
+    0 0 0 3px var(--nm-primary-glow);
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────────────── */
+.nm-progress-track {
+  background: var(--nm-bg);
+  box-shadow: var(--nm-shadow-pressed);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.nm-progress-fill {
+  background: linear-gradient(90deg, #2a7a50, #3da870, #f0b429);
+  background-size: 200% 100%;
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(42, 122, 80, 0.4);
+  animation: progress-shimmer 2s linear infinite;
+}
+
+@keyframes progress-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* ── Skeleton Loader ──────────────────────────────────────────────────── */
+.nm-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--nm-shadow-dark) 25%,
+    rgba(255, 255, 255, 0.6) 50%,
+    var(--nm-shadow-dark) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+  border-radius: var(--nm-radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ── Scrollable text area ─────────────────────────────────────────────── */
+.nm-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--nm-shadow-dark) transparent;
+}
+
+.nm-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nm-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nm-scroll::-webkit-scrollbar-thumb {
+  background: var(--nm-shadow-dark);
+  border-radius: 3px;
+}
+
+/* ── Badge / Chip ─────────────────────────────────────────────────────── */
+.nm-badge {
+  background: linear-gradient(135deg, rgba(42, 122, 80, 0.12), rgba(42, 122, 80, 0.06));
+  border: 1px solid rgba(42, 122, 80, 0.2);
+  border-radius: 999px;
+  color: var(--nm-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.nm-badge-gold {
+  background: linear-gradient(135deg, rgba(201, 146, 13, 0.15), rgba(201, 146, 13, 0.07));
+  border: 1px solid rgba(201, 146, 13, 0.3);
+  color: var(--nm-accent);
+}
+
+/* ── Rich Content Typography ──────────────────────────────────────────── */
+.rich-content h1,
+.rich-content h2,
+.rich-content h3 {
+  color: var(--nm-primary);
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  margin-top: 1.2em;
+  line-height: 1.3;
+}
+.rich-content h1:first-child,
+.rich-content h2:first-child,
+.rich-content h3:first-child {
+  margin-top: 0;
+}
+.rich-content h1 { font-size: 1.5rem; letter-spacing: -0.02em; }
+.rich-content h2 { font-size: 1.2rem; letter-spacing: -0.01em; }
+.rich-content h3 { font-size: 1.05rem; }
+.rich-content p { margin-bottom: 0.9em; }
+.rich-content strong { color: var(--nm-text); font-weight: 700; }
+.rich-content em { font-style: italic; color: var(--nm-text-secondary); }
+.rich-content code {
+  font-family: ui-monospace, "SF Mono", Consolas, monospace;
+  font-size: 0.82em;
+  background: rgba(42, 122, 80, 0.08);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  color: var(--nm-primary-hover, #22633f);
+}
+.rich-content ul,
+.rich-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.9em;
+}
+.rich-content li { margin-bottom: 0.3em; }
+.rich-content blockquote {
+  border-left: 3px solid var(--nm-accent);
+  padding-left: 1rem;
+  color: var(--nm-text-secondary);
+  font-style: italic;
+  margin: 1em 0;
+}
+.rich-content hr {
+  border: none;
+  border-top: 1px solid var(--nm-shadow-dark);
+  margin: 1.5em 0;
+}
+
+/* ── Transitions ──────────────────────────────────────────────────────── */
+.nm-transition {
+  transition: all 0.2s ease;
+}
+
+/* ── Tab Indicator ────────────────────────────────────────────────────── */
+.nm-tab-active {
+  box-shadow: var(--nm-shadow-pressed);
+  color: var(--nm-primary);
+  background: var(--nm-bg);
+}
