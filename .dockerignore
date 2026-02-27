@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Next.js build output
+.next
+out
+
+# Environment files
+.env*
+
+# Version control
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+.DS_Store
+*.pem
+README.md
