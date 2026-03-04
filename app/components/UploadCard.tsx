@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { useLocale } from "../context/LocaleContext";
 
 interface UploadCardProps {
   onFileSelected: (file: File) => void;
@@ -8,6 +9,7 @@ interface UploadCardProps {
 }
 
 export default function UploadCard({ onFileSelected, disabled }: UploadCardProps) {
+  const { t } = useLocale();
   const [dragOver, setDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
@@ -16,7 +18,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
   const handleFile = useCallback(
     (file: File) => {
       if (file.type !== "application/pdf") {
-        setFileError("Only PDF files are supported. Please choose a .pdf file.");
+        setFileError(t.fileErrorPdf);
         return;
       }
       setFileError(null);
@@ -53,10 +55,10 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
       <div className="flex items-center justify-between">
         <div>
           <h2 style={{ color: "var(--nm-text)", fontWeight: 700, fontSize: "1.125rem", letterSpacing: "-0.01em" }}>
-            Upload Document
+            {t.uploadTitle}
           </h2>
           <p style={{ color: "var(--nm-text-secondary)", fontSize: "0.85rem", marginTop: "0.2rem" }}>
-            PDF files only · Max 50 MB
+            {t.uploadSubtitle}
           </p>
         </div>
         <div className="nm-badge">
@@ -77,7 +79,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
         onClick={() => !disabled && inputRef.current?.click()}
         role="button"
         tabIndex={0}
-        aria-label="Upload PDF – drag and drop or click to browse"
+        aria-label={t.dropzoneAriaLabel}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -133,10 +135,10 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
         ) : (
           <div className="text-center">
             <p style={{ color: "var(--nm-text)", fontWeight: 500, fontSize: "0.95rem" }}>
-              {dragOver ? "Drop your PDF here" : "Drag & drop your PDF here"}
+              {dragOver ? t.dropzoneActive : t.dropzonePrompt}
             </p>
             <p style={{ color: "var(--nm-text-muted)", fontSize: "0.8rem", marginTop: "0.3rem" }}>
-              or click to browse files
+              {t.dropzoneSub}
             </p>
           </div>
         )}
@@ -185,7 +187,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
         >
           <polygon points="5 3 19 12 5 21 5 3" />
         </svg>
-        Extract Text
+        {t.extractButton}
       </button>
 
       {selectedFile && (
@@ -199,7 +201,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
           }}
           disabled={disabled}
         >
-          Remove file
+          {t.removeFile}
         </button>
       )}
     </div>
