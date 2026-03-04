@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale } from "../context/LocaleContext";
+
 type ProcessingStatus = "idle" | "processing" | "done" | "error";
 
 interface ProcessingCardProps {
@@ -36,6 +38,7 @@ export default function ProcessingCard({
   pagesProcessed,
   totalPages,
 }: ProcessingCardProps) {
+  const { t } = useLocale();
   const isIdle = status === "idle";
   const isProcessing = status === "processing";
   const isDone = status === "done";
@@ -47,13 +50,13 @@ export default function ProcessingCard({
       <div className="flex items-center justify-between">
         <div>
           <h2 style={{ color: "var(--nm-text)", fontWeight: 700, fontSize: "1.125rem", letterSpacing: "-0.01em" }}>
-            Processing
+            {t.processingTitle}
           </h2>
           <p style={{ color: "var(--nm-text-secondary)", fontSize: "0.85rem", marginTop: "0.2rem" }}>
-            {isIdle && "Waiting for upload…"}
-            {isProcessing && "Extracting text from pages…"}
-            {isDone && "Extraction complete"}
-            {isError && "An error occurred"}
+            {isIdle && t.statusIdle}
+            {isProcessing && t.statusProcessing}
+            {isDone && t.statusDone}
+            {isError && t.statusError}
           </p>
         </div>
 
@@ -70,17 +73,17 @@ export default function ProcessingCard({
                 animation: "pulse-dot 1.2s ease-in-out infinite",
               }}
             />
-            Live
+            {t.badgeLive}
           </div>
         )}
         {isDone && (
           <div className="nm-badge" style={{ color: "var(--nm-primary)" }}>
-            ✓ Done
+            {t.badgeDone}
           </div>
         )}
         {isError && (
           <div className="nm-badge" style={{ color: "#c0392b", borderColor: "rgba(192,57,43,0.3)", background: "rgba(192,57,43,0.08)" }}>
-            ✕ Error
+            {t.badgeError}
           </div>
         )}
       </div>
@@ -112,21 +115,21 @@ export default function ProcessingCard({
             aria-valuenow={progress}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label={`Processing progress: ${progress}%`}
+            aria-label={t.progressComplete(Math.round(progress))}
           />
         </div>
 
         {/* Stats row */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span style={{ color: "var(--nm-text-muted)", fontSize: "0.8rem" }}>
-            {isIdle ? "—" : `${progress.toFixed(0)}% complete`}
+            {isIdle ? t.progressIdle : t.progressComplete(Math.round(progress))}
           </span>
           {(isProcessing || isDone) && totalPages > 0 && (
             <span style={{ color: "var(--nm-text-secondary)", fontSize: "0.8rem", fontWeight: 500 }}>
               <span style={{ color: "var(--nm-primary)", fontWeight: 700 }}>{pagesProcessed}</span>
               {" / "}
               <span>{totalPages}</span>
-              {" pages"}
+              {" "}{t.pages}
             </span>
           )}
         </div>
@@ -140,7 +143,7 @@ export default function ProcessingCard({
             gridTemplateColumns: `repeat(auto-fill, minmax(28px, 1fr))`,
             gap: "6px",
           }}
-          aria-label="Page processing status"
+          aria-label={t.pageStatus}
         >
           {Array.from({ length: Math.min(totalPages, 30) }).map((_, i) => {
             const processed = i < pagesProcessed;
@@ -197,7 +200,7 @@ export default function ProcessingCard({
         <div
           className="nm-pressed"
           style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}
-          aria-label="Processing content preview"
+          aria-label={t.processingPreview}
         >
           <SkeletonBlock />
           <SkeletonBlock />
@@ -233,7 +236,7 @@ export default function ProcessingCard({
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           <p style={{ color: "var(--nm-text-muted)", fontSize: "0.85rem", textAlign: "center" }}>
-            Upload a PDF to begin extraction
+            {t.idlePlaceholder}
           </p>
         </div>
       )}
@@ -256,7 +259,7 @@ export default function ProcessingCard({
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           <p style={{ color: "#c0392b", fontSize: "0.85rem" }}>
-            Failed to process document. Please try again.
+            {t.errorMessage}
           </p>
         </div>
       )}

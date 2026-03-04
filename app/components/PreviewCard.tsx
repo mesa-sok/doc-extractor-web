@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import DOMPurify from "dompurify";
+import { useLocale } from "../context/LocaleContext";
 
 type Tab = "raw" | "rich";
 
@@ -12,6 +13,7 @@ interface PreviewCardProps {
 }
 
 export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardProps) {
+  const { t } = useLocale();
   const [activeTab, setActiveTab] = useState<Tab>("raw");
   const [copied, setCopied] = useState(false);
 
@@ -39,12 +41,12 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 style={{ color: "var(--nm-text)", fontWeight: 700, fontSize: "1.125rem", letterSpacing: "-0.01em" }}>
-            Extracted Content
+            {t.previewTitle}
           </h2>
           <p style={{ color: "var(--nm-text-secondary)", fontSize: "0.85rem", marginTop: "0.2rem" }}>
             {isReady
-              ? `${rawText.split(/\s+/).filter(Boolean).length.toLocaleString()} words extracted`
-              : "Preview will appear after extraction"}
+              ? t.wordsExtracted(rawText.split(/\s+/).filter(Boolean).length.toLocaleString())
+              : t.previewSubtitle}
           </p>
         </div>
 
@@ -55,14 +57,14 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
               className="nm-btn-ghost"
               style={{ padding: "0.55rem 1rem", fontSize: "0.82rem", display: "flex", alignItems: "center", gap: "0.4rem" }}
               onClick={handleCopy}
-              aria-label="Copy extracted text to clipboard"
+              aria-label={t.copyAriaLabel}
             >
               {copied ? (
                 <>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--nm-primary)" strokeWidth="2.5" strokeLinecap="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                  Copied!
+                  {t.copiedButton}
                 </>
               ) : (
                 <>
@@ -70,7 +72,7 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                   </svg>
-                  Copy
+                  {t.copyButton}
                 </>
               )}
             </button>
@@ -79,14 +81,14 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
               className="nm-btn-ghost"
               style={{ padding: "0.55rem 1rem", fontSize: "0.82rem", display: "flex", alignItems: "center", gap: "0.4rem" }}
               onClick={handleDownload}
-              aria-label="Download extracted text as .txt file"
+              aria-label={t.downloadAriaLabel}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
-              Download
+              {t.downloadButton}
             </button>
           </div>
         )}
@@ -115,7 +117,7 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
             }}
             onClick={() => setActiveTab(tab)}
           >
-            {tab === "raw" ? "Raw Text" : "Rich Preview"}
+            {tab === "raw" ? t.tabRaw : t.tabRich}
           </button>
         ))}
       </div>
@@ -124,7 +126,7 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
       <div
         id={`panel-${activeTab}`}
         role="tabpanel"
-        aria-label={activeTab === "raw" ? "Raw text output" : "Rich formatted preview"}
+        aria-label={activeTab === "raw" ? t.rawPanelLabel : t.richPanelLabel}
       >
         {!isReady ? (
           /* Empty state */
@@ -157,10 +159,10 @@ export default function PreviewCard({ rawText, richHtml, isReady }: PreviewCardP
             </svg>
             <div style={{ textAlign: "center" }}>
               <p style={{ color: "var(--nm-text-secondary)", fontWeight: 500, fontSize: "0.95rem" }}>
-                No content yet
+                {t.emptyStateTitle}
               </p>
               <p style={{ color: "var(--nm-text-muted)", fontSize: "0.82rem", marginTop: "0.3rem" }}>
-                Upload and extract a PDF to see the output here
+                {t.emptyStateSub}
               </p>
             </div>
           </div>

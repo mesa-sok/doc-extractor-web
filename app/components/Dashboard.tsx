@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import UploadCard from "./UploadCard";
 import ProcessingCard from "./ProcessingCard";
 import PreviewCard from "./PreviewCard";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLocale } from "../context/LocaleContext";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -64,6 +66,7 @@ const DEMO_HTML = `
 const TOTAL_PAGES = 12;
 
 export default function Dashboard() {
+  const { t } = useLocale();
   const [status, setStatus] = useState<Status>("idle");
   const [progress, setProgress] = useState(0);
   const [pagesProcessed, setPagesProcessed] = useState(0);
@@ -114,6 +117,11 @@ export default function Dashboard() {
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         {/* ── Header ────────────────────────────────────────── */}
         <header style={{ marginBottom: "2.75rem", textAlign: "center" }}>
+          {/* Language switcher – top right */}
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+            <LanguageSwitcher />
+          </div>
+
           {/* Logo mark */}
           <div
             className="nm-flat"
@@ -156,8 +164,8 @@ export default function Dashboard() {
               marginBottom: "0.5rem",
             }}
           >
-            PDF{" "}
-            <span style={{ color: "var(--nm-primary)" }}>Extractor</span>
+            {t.pageTitle}{" "}
+            <span style={{ color: "var(--nm-primary)" }}>{t.pageTitleHighlight}</span>
           </h1>
           <p
             style={{
@@ -168,7 +176,7 @@ export default function Dashboard() {
               lineHeight: 1.6,
             }}
           >
-            Upload your PDF and extract clean, structured text in seconds.
+            {t.pageSubtitle}
           </p>
 
           {/* Accent bar */}
@@ -221,7 +229,7 @@ export default function Dashboard() {
             fontSize: "0.78rem",
           }}
         >
-          PDF Extractor · Doc Extractor Web · Built with Next.js
+          {t.footer}
         </footer>
       </div>
     </div>
