@@ -1,10 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import UploadCard from "./UploadCard";
 import ProcessingCard from "./ProcessingCard";
 import PreviewCard from "./PreviewCard";
 import LanguageSwitcher from "./LanguageSwitcher";
+import {
+  CloudUploadIcon,
+  CogIcon,
+  DownloadIcon,
+  ArrowRightIcon,
+  FileTextIcon,
+} from "./Icons";
 import { useLocale } from "../context/LocaleContext";
 
 type Status = "idle" | "processing" | "done" | "error";
@@ -126,8 +133,8 @@ export default function Dashboard() {
           <div
             className="nm-flat"
             style={{
-              width: "64px",
-              height: "64px",
+              width: "72px",
+              height: "72px",
               margin: "0 auto 1.25rem",
               display: "flex",
               alignItems: "center",
@@ -135,24 +142,30 @@ export default function Dashboard() {
               background: "linear-gradient(145deg, #2d8556, #226543)",
               boxShadow:
                 "6px 6px 14px var(--nm-shadow-dark), -6px -6px 14px var(--nm-shadow-light)",
+              position: "relative",
             }}
           >
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <FileTextIcon size={32} color="white" strokeWidth={1.75} />
+            {/* Small zap accent in corner */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: "-4px",
+                right: "-4px",
+                width: "22px",
+                height: "22px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, var(--nm-accent), var(--nm-accent-light))",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "2px 2px 6px rgba(0,0,0,0.2)",
+              }}
             >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-              <polyline points="10 9 9 9 8 9" />
-            </svg>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="white" stroke="none" aria-hidden="true">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+            </div>
           </div>
 
           <h1
@@ -186,9 +199,83 @@ export default function Dashboard() {
               height: "3px",
               background: "linear-gradient(90deg, var(--nm-primary), var(--nm-accent-light))",
               borderRadius: "2px",
-              margin: "1.25rem auto 0",
+              margin: "1.25rem auto 1.75rem",
             }}
           />
+
+          {/* How it works – 3-step strip */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+              flexWrap: "wrap",
+              rowGap: "1rem",
+            }}
+          >
+            {[
+              {
+                icon: <CloudUploadIcon size={22} color="var(--nm-primary)" strokeWidth={1.75} />,
+                title: t.howItWorksStep1Title,
+                sub: t.howItWorksStep1Sub,
+              },
+              {
+                icon: <CogIcon size={22} color="var(--nm-accent)" strokeWidth={1.75} />,
+                title: t.howItWorksStep2Title,
+                sub: t.howItWorksStep2Sub,
+              },
+              {
+                icon: <DownloadIcon size={22} color="var(--nm-primary)" strokeWidth={1.75} />,
+                title: t.howItWorksStep3Title,
+                sub: t.howItWorksStep3Sub,
+              },
+            ].map((step, idx) => (
+              <React.Fragment key={step.title}>
+                <div
+                  className="nm-flat-sm"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.6rem",
+                    padding: "0.6rem 1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                      background: "var(--nm-bg)",
+                      boxShadow: "var(--nm-shadow-sm)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {step.icon}
+                  </div>
+                  <div style={{ textAlign: "left" }}>
+                    <p style={{ fontWeight: 700, fontSize: "0.8rem", color: "var(--nm-text)", lineHeight: 1.3 }}>
+                      {step.title}
+                    </p>
+                    <p style={{ fontSize: "0.72rem", color: "var(--nm-text-muted)", lineHeight: 1.3 }}>
+                      {step.sub}
+                    </p>
+                  </div>
+                </div>
+                {idx < 2 && (
+                  <ArrowRightIcon
+                    key={`arrow-${idx}`}
+                    size={16}
+                    color="var(--nm-text-muted)"
+                    strokeWidth={2}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </header>
 
         {/* ── Cards Grid ───────────────────────────────────── */}

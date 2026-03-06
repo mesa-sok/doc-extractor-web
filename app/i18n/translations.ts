@@ -7,6 +7,14 @@ export interface Translations {
   pageSubtitle: string;
   footer: string;
 
+  // How it works strip
+  howItWorksStep1Title: string;
+  howItWorksStep1Sub: string;
+  howItWorksStep2Title: string;
+  howItWorksStep2Sub: string;
+  howItWorksStep3Title: string;
+  howItWorksStep3Sub: string;
+
   // UploadCard
   uploadTitle: string;
   uploadSubtitle: string;
@@ -60,6 +68,13 @@ export const translations: Record<Locale, Translations> = {
       "Upload your PDF and extract clean, structured text in seconds.",
     footer: "PDF Extractor · Doc Extractor Web · Built with Next.js",
 
+    howItWorksStep1Title: "Upload PDF",
+    howItWorksStep1Sub: "Drag & drop or browse",
+    howItWorksStep2Title: "Auto Extract",
+    howItWorksStep2Sub: "AI-powered parsing",
+    howItWorksStep3Title: "Copy & Download",
+    howItWorksStep3Sub: "Raw text or rich format",
+
     uploadTitle: "Upload Document",
     uploadSubtitle: "PDF files only · Max 50 MB",
     dropzoneAriaLabel: "Upload PDF – drag and drop or click to browse",
@@ -109,6 +124,13 @@ export const translations: Record<Locale, Translations> = {
     pageSubtitle:
       "ផ្ទុកឡើង PDF របស់អ្នក ហើយស្រង់ចេញអក្សរដែលច្បាស់លាស់ ក្នុងពេលប៉ុន្មានវិនាទី។",
     footer: "PDF ស្រង់ចេញ · Doc Extractor Web · បង្កើតដោយ Next.js",
+
+    howItWorksStep1Title: "ផ្ទុកឡើង PDF",
+    howItWorksStep1Sub: "អូស ដាក់ ឬរកមើល",
+    howItWorksStep2Title: "ស្រង់ចេញស្វ័យប្រវត្តិ",
+    howItWorksStep2Sub: "ដំណើរការ AI",
+    howItWorksStep3Title: "ចម្លង & ទាញយក",
+    howItWorksStep3Sub: "អក្សរឆៅ ឬទ្រង់ទ្រាយ",
 
     uploadTitle: "ផ្ទុកឡើងឯកសារ",
     uploadSubtitle: "ឯកសារ PDF តែប៉ុណ្ណោះ · អតិបរមា 50 MB",

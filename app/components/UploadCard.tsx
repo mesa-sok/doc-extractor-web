@@ -2,6 +2,14 @@
 
 import { useCallback, useRef, useState } from "react";
 import { useLocale } from "../context/LocaleContext";
+import {
+  CloudUploadIcon,
+  AlertCircleIcon,
+  FileTextIcon,
+  PlayIcon,
+  TrashIcon,
+  StarIcon,
+} from "./Icons";
 
 interface UploadCardProps {
   onFileSelected: (file: File) => void;
@@ -62,9 +70,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
           </p>
         </div>
         <div className="nm-badge">
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M6 1L7.5 4.5H11L8.25 6.75L9.25 10.5L6 8.25L2.75 10.5L3.75 6.75L1 4.5H4.5L6 1Z" />
-          </svg>
+          <StarIcon size={10} color="currentColor" strokeWidth={0} style={{ fill: "currentColor" }} />
           PDF
         </div>
       </div>
@@ -101,34 +107,39 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
         <div
           className="nm-flat-sm flex items-center justify-center"
           style={{
-            width: "64px",
-            height: "64px",
+            width: "72px",
+            height: "72px",
             color: dragOver ? "var(--nm-primary)" : "var(--nm-text-muted)",
             transition: "color 0.2s ease",
           }}
         >
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="17 8 12 3 7 8" />
-            <line x1="12" y1="3" x2="12" y2="15" />
-          </svg>
+          <CloudUploadIcon
+            size={36}
+            color={dragOver ? "var(--nm-primary)" : "var(--nm-text-muted)"}
+            strokeWidth={1.5}
+          />
         </div>
 
         {selectedFile ? (
-          <div className="text-center">
-            <p style={{ color: "var(--nm-primary)", fontWeight: 600, fontSize: "0.95rem" }}>
-              {selectedFile.name}
-            </p>
-            <p style={{ color: "var(--nm-text-muted)", fontSize: "0.8rem", marginTop: "0.2rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
+            {/* File icon + name */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.5rem 1rem",
+                borderRadius: "var(--nm-radius-sm)",
+                background: "rgba(42, 122, 80, 0.08)",
+                border: "1px solid rgba(42, 122, 80, 0.2)",
+              }}
+            >
+              <FileTextIcon size={18} color="var(--nm-primary)" strokeWidth={1.75} />
+              <p style={{ color: "var(--nm-primary)", fontWeight: 600, fontSize: "0.92rem" }}>
+                {selectedFile.name}
+              </p>
+            </div>
+            <p style={{ color: "var(--nm-text-muted)", fontSize: "0.78rem" }}>
               {formatBytes(selectedFile.size)}
             </p>
           </div>
@@ -140,6 +151,26 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
             <p style={{ color: "var(--nm-text-muted)", fontSize: "0.8rem", marginTop: "0.3rem" }}>
               {t.dropzoneSub}
             </p>
+            {/* Accepted format hint */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.3rem", marginTop: "0.75rem" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.25rem",
+                  padding: "0.2rem 0.55rem",
+                  borderRadius: "999px",
+                  background: "rgba(42, 122, 80, 0.07)",
+                  border: "1px solid rgba(42, 122, 80, 0.18)",
+                  fontSize: "0.72rem",
+                  fontWeight: 600,
+                  color: "var(--nm-primary)",
+                }}
+              >
+                <FileTextIcon size={11} color="var(--nm-primary)" strokeWidth={2} />
+                .pdf
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -160,9 +191,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
             fontSize: "0.82rem",
           }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <AlertCircleIcon size={14} color="#c0392b" strokeWidth={2} />
           {fileError}
         </div>
       )}
@@ -175,24 +204,13 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
         onClick={() => selectedFile && onFileSelected(selectedFile)}
         aria-disabled={!selectedFile || disabled}
       >
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polygon points="5 3 19 12 5 21 5 3" />
-        </svg>
+        <PlayIcon size={18} color="white" strokeWidth={0} style={{ fill: "white" }} />
         {t.extractButton}
       </button>
 
       {selectedFile && (
         <button
-          className="nm-btn-ghost w-full text-center"
+          className="nm-btn-ghost w-full flex items-center justify-center gap-2"
           style={{ padding: "0.6rem 1rem", fontSize: "0.82rem" }}
           onClick={(e) => {
             e.stopPropagation();
@@ -201,6 +219,7 @@ export default function UploadCard({ onFileSelected, disabled }: UploadCardProps
           }}
           disabled={disabled}
         >
+          <TrashIcon size={14} color="currentColor" strokeWidth={2} />
           {t.removeFile}
         </button>
       )}
