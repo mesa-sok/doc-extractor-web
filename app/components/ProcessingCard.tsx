@@ -1,6 +1,14 @@
 "use client";
 
 import { useLocale } from "../context/LocaleContext";
+import {
+  CheckCircleIcon,
+  CheckIcon,
+  CogIcon,
+  ClockIcon,
+  AlertCircleIcon,
+  XCircleIcon,
+} from "./Icons";
 
 type ProcessingStatus = "idle" | "processing" | "done" | "error";
 
@@ -62,7 +70,7 @@ export default function ProcessingCard({
 
         {/* Status badge */}
         {isProcessing && (
-          <div className="nm-badge nm-badge-gold">
+          <div className="nm-badge nm-badge-gold" style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
             <span
               style={{
                 width: "6px",
@@ -77,12 +85,14 @@ export default function ProcessingCard({
           </div>
         )}
         {isDone && (
-          <div className="nm-badge" style={{ color: "var(--nm-primary)" }}>
+          <div className="nm-badge" style={{ color: "var(--nm-primary)", display: "flex", alignItems: "center", gap: "0.35rem" }}>
+            <CheckCircleIcon size={12} color="var(--nm-primary)" strokeWidth={2.5} />
             {t.badgeDone}
           </div>
         )}
         {isError && (
-          <div className="nm-badge" style={{ color: "#c0392b", borderColor: "rgba(192,57,43,0.3)", background: "rgba(192,57,43,0.08)" }}>
+          <div className="nm-badge" style={{ color: "#c0392b", borderColor: "rgba(192,57,43,0.3)", background: "rgba(192,57,43,0.08)", display: "flex", alignItems: "center", gap: "0.35rem" }}>
+            <XCircleIcon size={12} color="#c0392b" strokeWidth={2.5} />
             {t.badgeError}
           </div>
         )}
@@ -170,7 +180,11 @@ export default function ProcessingCard({
                   color: processed ? "rgba(255,255,255,0.9)" : "var(--nm-text-muted)",
                 }}
               >
-                {i + 1}
+                {processed ? (
+                  <CheckIcon size={12} color="rgba(255,255,255,0.95)" strokeWidth={3} />
+                ) : (
+                  i + 1
+                )}
               </div>
             );
           })}
@@ -202,6 +216,18 @@ export default function ProcessingCard({
           style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}
           aria-label={t.processingPreview}
         >
+          {/* Spinner icon while processing */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
+            <CogIcon
+              size={16}
+              color="var(--nm-accent)"
+              strokeWidth={1.75}
+              style={{ animation: "spin 2s linear infinite" }}
+            />
+            <span style={{ fontSize: "0.78rem", color: "var(--nm-text-muted)" }}>
+              {t.statusProcessing}
+            </span>
+          </div>
           <SkeletonBlock />
           <SkeletonBlock />
         </div>
@@ -221,20 +247,7 @@ export default function ProcessingCard({
             minHeight: "120px",
           }}
         >
-          <svg
-            width="36"
-            height="36"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--nm-text-muted)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <ClockIcon size={36} color="var(--nm-text-muted)" strokeWidth={1.5} />
           <p style={{ color: "var(--nm-text-muted)", fontSize: "0.85rem", textAlign: "center" }}>
             {t.idlePlaceholder}
           </p>
@@ -253,11 +266,7 @@ export default function ProcessingCard({
             borderLeft: "3px solid #c0392b",
           }}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c0392b" strokeWidth="2" strokeLinecap="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
+          <AlertCircleIcon size={20} color="#c0392b" strokeWidth={2} />
           <p style={{ color: "#c0392b", fontSize: "0.85rem" }}>
             {t.errorMessage}
           </p>

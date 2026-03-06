@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from "../context/LocaleContext";
+import { GlobeIcon } from "./Icons";
 
 export default function LanguageSwitcher() {
   const { locale, setLocale } = useLocale();
@@ -8,10 +9,16 @@ export default function LanguageSwitcher() {
   return (
     <div
       className="nm-flat-sm"
-      style={{ display: "inline-flex", padding: "4px", gap: "4px" }}
+      style={{ display: "inline-flex", alignItems: "center", padding: "4px", gap: "4px" }}
       role="group"
       aria-label="Language selection"
     >
+      <GlobeIcon
+        size={14}
+        color="var(--nm-text-muted)"
+        strokeWidth={1.75}
+        style={{ marginLeft: "0.4rem", marginRight: "0.1rem", flexShrink: 0 }}
+      />
       <button
         className={locale === "en" ? "nm-tab-active" : "nm-btn-ghost"}
         style={{
